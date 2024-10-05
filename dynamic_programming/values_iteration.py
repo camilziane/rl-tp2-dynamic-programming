@@ -25,8 +25,18 @@ def mdp_value_iteration(mdp: MDP, max_iter: int = 1000, gamma=1.0) -> np.ndarray
     https://en.wikipedia.org/wiki/Markov_decision_process#Value_iteration
     """
     values = np.zeros(mdp.observation_space.n)
-    # BEGIN SOLUTION
-    # END SOLUTION
+    #BEGIN SOLUTION
+    for _ in range(max_iter):
+        pre_values = np.copy(values)
+        for s in range(mdp.observation_space.n):
+            value = max([
+                mdp.P[s][a][1] + gamma * values[mdp.P[s][a][0]]
+                for a in range(mdp.action_space.n)
+            ])   
+            values[s] = value
+        if np.all(np.abs(values - pre_values) < 1e-5):
+            break
+    #END SOLUTION
     return values
 
 

@@ -45,6 +45,16 @@ class MDP(gym.Env):
 
     def __init__(self):
         # BEGIN SOLUTION
+        self.observation_space = spaces.Discrete(3)
+        self.action_space = spaces.Discrete(2)
+        self.P = [[(0, 0, False) for _ in range(2)] for _ in range(3)]
+        self.P[0][0] = (1, -1, False)
+        self.P[0][1] = (0, -1, False)
+        self.P[1][0] = (0, -1, False)
+        self.P[1][1] = (2, -1, False)
+        self.P[2][0] = (2, 0, False)
+        self.P[2][1] = (0, -1, False)
+        self.reset_state()
         # END SOLUTION
 
     def reset_state(self, value: t.Optional[int] = None):
@@ -66,4 +76,8 @@ class MDP(gym.Env):
         si l'épisode est terminé, et un dictionnaire d'informations.
         """
         # BEGIN SOLUTION
+        new_state, reward, done = self.P[self.initial_state][action]
+        if transition:
+            self.initial_state = new_state
+        return (new_state, reward, done, {})
         # END SOLUTION
