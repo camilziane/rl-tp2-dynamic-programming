@@ -117,6 +117,11 @@ class GridWorldEnv(gym.Env):
 
         return next_state, reward, is_done, {}
 
+    def get_next_states(self, action: int) -> list[tuple[int, float, float, bool]]:
+        next_state, reward, is_done, _ = self.step(action, make_move=False)
+        res = [(next_state, reward, 1, is_done, action)]
+        return res
+
     def reset(self):
         self.current_position = (3, 0)  # Start Position
         return self.current_position
